@@ -21,7 +21,10 @@ const storage = multer.diskStorage({
     cb(error, "backend/images");
   },
   filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().split(" ").join("-");
+    const name = file.originalname
+    .toLowerCase()
+    .split(" ")
+    .join("-");
     const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, name + "-" + Date.now() + "." + ext);
   },
@@ -48,7 +51,6 @@ router.post(
           },
         });
       })
-      .catch((err) => {});
   }
 );
 
@@ -79,7 +81,7 @@ router.get("", (req, res, next) => {
   Post.find().then((documents) => {
     res.status(200).json({
       message: "Post fetched successfully",
-      posts: documents,
+      posts: documents
     });
   });
 });
@@ -89,13 +91,12 @@ router.get("/:id", (req, res, next) => {
     if (post) {
       res.status(200).json(post);
     } else {
-      res.status(400).json({ message: "Post not found!" });
+      res.status(404).json({ message: "Post not found!" });
     }
   });
 });
 
 router.delete("/:id", (req, res, next) => {
-  console.log(req.params.id);
   Post.deleteOne({ _id: req.params.id }).then((result) => {
     console.log(result);
     res.status(200).json({ message: "Post deleted!" });
