@@ -69,7 +69,7 @@ export class PostsService {
 
   updatePost(id: string, title: string, content: string, image: File | string) {
     let postData: Post | FormData;
-    if (typeof (image) === 'object') {
+    if (typeof image === 'object') {
       postData = new FormData();
       postData.append('id', id);
       postData.append('title', title);

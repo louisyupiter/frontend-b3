@@ -8,7 +8,7 @@ const router = express.Router();
 const MIME_TYPE_MAP = {
   "image/png": "png",
   "image/jpeg": "jpg",
-  "image/jpg": "jpg",
+  "image/jpg": "jpg"
 };
 
 const storage = multer.diskStorage({
@@ -22,12 +22,12 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const name = file.originalname
-    .toLowerCase()
-    .split(" ")
-    .join("-");
+      .toLowerCase()
+      .split(" ")
+      .join("-");
     const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, name + "-" + Date.now() + "." + ext);
-  },
+  }
 });
 
 router.post(
@@ -38,19 +38,17 @@ router.post(
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      imagePath: url + "/images/" + req.file.filename,
+      imagePath: url + "/images/" + req.file.filename
     });
-    post
-      .save()
-      .then((createdPost) => {
-        res.status(201).json({
-          message: "Post added successfully",
-          post: {
-            ...createdPost,
-            id: createdPost._id,
-          },
-        });
-      })
+    post.save().then(createdPost => {
+      res.status(201).json({
+        message: "Post added successfully",
+        post: {
+          ...createdPost,
+          id: createdPost._id
+        }
+      });
+    });
   }
 );
 
@@ -59,10 +57,9 @@ router.put(
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
     let imagePath = req.body.imagePath;
-    console.log(req.file)
     if (req.file) {
       const url = req.protocol + "://" + req.get("host");
-      imagePath = url + "/images/" + req.file.filename;
+      imagePath = url + "/images/" + req.file.filename
     }
     const post = new Post({
       _id: req.body.id,
@@ -78,16 +75,16 @@ router.put(
 );
 
 router.get("", (req, res, next) => {
-  Post.find().then((documents) => {
+  Post.find().then(documents => {
     res.status(200).json({
-      message: "Post fetched successfully",
+      message: "Posts fetched successfully!",
       posts: documents
     });
   });
 });
 
 router.get("/:id", (req, res, next) => {
-  Post.findById(req.params.id).then((post) => {
+  Post.findById(req.params.id).then(post => {
     if (post) {
       res.status(200).json(post);
     } else {
@@ -97,7 +94,7 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id }).then((result) => {
+  Post.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
     res.status(200).json({ message: "Post deleted!" });
   });
