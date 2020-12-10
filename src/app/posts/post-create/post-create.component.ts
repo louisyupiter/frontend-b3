@@ -14,13 +14,13 @@ import { mimeType } from './mime-type.validator'
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent implements OnInit, OnDestroy {
-  enteredTitle = '';
-  enteredContent = '';
+  enteredTitle = "";
+  enteredContent = "";
   post: Post;
   isLoading = false;
   form: FormGroup;
   imagePreview: string;
-  private mode = 'create';
+  private mode = "create";
   private postId: string;
   private authStatusSub: Subscription;
 
@@ -31,8 +31,8 @@ export class PostCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
-      authStatus =>{
-        this.isLoading = false
+      authStatus => {
+        this.isLoading = false;
       }
     );
     this.form = new FormGroup({
@@ -79,21 +79,21 @@ export class PostCreateComponent implements OnInit, OnDestroy {
   }
 
   onSavePost() {
-    if(this.form.invalid){
+    if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
-    if (this.mode === 'create') {
+    if (this.mode === "create") {
       this.postsService.addPost(
-        this.form.value.title, 
-        this.form.value.content, 
+        this.form.value.title,
+        this.form.value.content,
         this.form.value.image
       );
     } else {
       this.postsService.updatePost(
-        this.postId, 
-        this.form.value.title, 
-        this.form.value.content, 
+        this.postId,
+        this.form.value.title,
+        this.form.value.content,
         this.form.value.image
       );
     }
