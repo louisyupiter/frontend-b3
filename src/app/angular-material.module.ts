@@ -8,7 +8,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AngularMaterialComponent } from './angular-material.component';
 
 @NgModule({
   imports: [
@@ -31,7 +30,6 @@ import { AngularMaterialComponent } from './angular-material.component';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
-  ],
-  declarations: [AngularMaterialComponent]
+  ]
 })
 export class AngularMaterialModule { }
