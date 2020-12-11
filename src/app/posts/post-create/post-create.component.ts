@@ -47,7 +47,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.postsService.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
-          this.post = { 
+          this.post = {
             id: postData._id, 
             title: postData.title, 
             content: postData.content, 
