@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 
 import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
-import { mimeType } from './mime-type.validator'
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'app-post-create',
@@ -14,22 +14,22 @@ import { mimeType } from './mime-type.validator'
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent implements OnInit, OnDestroy {
-  enteredTitle = "";
-  enteredContent = "";
+  enteredTitle = '';
+  enteredContent = '';
   post: Post;
   isLoading = false;
   form: FormGroup;
   imagePreview: string;
-  private mode = "create";
+  private mode = 'create';
   private postId: string;
   private authStatusSub: Subscription;
 
   constructor(
     public postsService: PostsService,
     public route: ActivatedRoute,
-    public authService: AuthService) {}
+    public authService: AuthService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
       authStatus => {
         this.isLoading = false;
@@ -48,16 +48,16 @@ export class PostCreateComponent implements OnInit, OnDestroy {
         this.postsService.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
           this.post = {
-            id: postData._id, 
-            title: postData.title, 
-            content: postData.content, 
+            id: postData._id,
+            title: postData.title,
+            content: postData.content,
             imagePath: postData.imagePath,
             creator: postData.creator
           };
-          this.form.setValue({ 
-            title: this.post.title, 
-            content: this.post.content, 
-            image: this.post.imagePath 
+          this.form.setValue({
+            title: this.post.title,
+            content: this.post.content,
+            image: this.post.imagePath
           });
         });
       } else {
@@ -67,10 +67,10 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     });
   }
 
-  onImagePicked(event: Event) {
+  onImagePicked(event: Event): void {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({ image: file });
-    this.form.get("image").updateValueAndValidity();
+    this.form.get('image').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
@@ -78,12 +78,12 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
   }
 
-  onSavePost() {
+  onSavePost(): void {
     if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
-    if (this.mode === "create") {
+    if (this.mode === 'create') {
       this.postsService.addPost(
         this.form.value.title,
         this.form.value.content,
@@ -100,7 +100,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy(): void {
     this.authStatusSub.unsubscribe();
   }
 

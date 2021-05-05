@@ -8,7 +8,7 @@ import { PostCreateComponent } from './post-create/post-create.component';
 import { PostListComponent } from './post-list/post-list.component';
 
 @NgModule({
-    declarations:[
+    declarations: [
         PostCreateComponent,
         PostListComponent,
     ],
@@ -19,7 +19,7 @@ import { PostListComponent } from './post-list/post-list.component';
         RouterModule
     ],
     exports: [
-        
+
     ]
 })
 export class PostModule { }

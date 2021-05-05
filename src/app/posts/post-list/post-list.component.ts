@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Post } from '../post.model'
+import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
 import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.css']
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit, OnDestroy {
 
   posts: Post[] = [];
   isLoading = false;
@@ -26,10 +26,10 @@ export class PostListComponent implements OnInit {
 
   constructor(public postsService: PostsService, private authService: AuthService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoading = true;
     this.postsService.getPosts(this.postPerPage, 1);
-    this.userId = this.authService.getUserId(); 
+    this.userId = this.authService.getUserId();
     this.postsSub = this.postsService
       .getPostUpdateListener()
       .subscribe((postData: { posts: Post[], postCount: number }) => {
@@ -46,23 +46,23 @@ export class PostListComponent implements OnInit {
       });
   }
 
-  onChangedPage(pageData: PageEvent) {
+  onChangedPage(pageData: PageEvent): void {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.postPerPage = pageData.pageSize;
     this.postsService.getPosts(this.postPerPage, this.currentPage);
   }
 
-  onDelete(postId: string) {
+  onDelete(postId: string): void {
     this.isLoading = true;
     this.postsService.deletePost(postId).subscribe(() => {
-      this.postsService.getPosts(this.postPerPage, this.currentPage)
+      this.postsService.getPosts(this.postPerPage, this.currentPage);
     }, () => {
       this.isLoading = false;
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.postsSub.unsubscribe();
     this.authStatusSub.unsubscribe();
   }
