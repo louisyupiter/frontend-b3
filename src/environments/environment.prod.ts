@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://belajar-angular-lyc-be.herokuapp.com/'
+  apiUrl: 'https://beb3.herokuapp.com/api'
 };
