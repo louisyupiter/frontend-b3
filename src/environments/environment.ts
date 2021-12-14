@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiUrl: "https://belajar-angular-lyc-be.herokuapp.com/api"
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'https://beb3.herokuapp.com/api'
+  // apiUrl: 'http://localhost:3000/api'
 };
 
 /*
